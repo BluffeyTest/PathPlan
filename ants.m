@@ -61,8 +61,9 @@ while NC<=G
             Tabu(i,j)=to_visit;
         end
     end
-    if NC>=2
-        Tabu(1,:)=R_Best(NC-1,:);
+    
+    if NC>2
+        Tabu(1,:)=R_Best(NC-1,:);%这儿看似是一只蚂蚁每一次跑的结果都被舍弃了，但是实际上是，之前的最优结果能一直对后续蚂蚁产生信息素增强效果
     end
     L=zeros(m,1);
     for i=1:m
@@ -87,12 +88,15 @@ while NC<=G
     %第六步：禁忌表清零
     Tabu=zeros(m,n);
     %历代最优路线
+    str = ['第' num2str(NC) ' 次迭代最优距离: ' num2str(L_Best(NC))];
+    disp(str);
     for i=1:(n-1)
         plot([C(R_Best(NC,i),1),C(R_Best(NC,i+1),1)],[C(R_Best(NC,i),2),C(R_Best(NC,i+1),2)],'bo-');
         hold on
     end
     plot([C(R_Best(NC,n),1),C(R_Best(NC,1),1)],[C(R_Best(NC,n),2),C(R_Best(NC,1),2)],'ro-');
-    title(['优化最优距离：',num2str(L_Best(NC))]);
+    %title(['优化最优距离：',num2str(L_Best(NC))]);
+    title(str);
     hold off;
     pause(0.005);
     NC=NC+1;
